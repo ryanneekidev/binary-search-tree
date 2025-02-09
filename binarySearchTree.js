@@ -56,3 +56,106 @@ function insertNode(tree, node){
         }
         return tree;
 }
+
+function deleteNode(root, key) {
+    let curr = root;
+    let prev = null;
+
+    while (curr !== null && curr.data !== key) {
+        prev = curr;
+        if (key < curr.data) {
+            curr = curr.leftNode;
+        } else {
+            curr = curr.rightNode;
+        }
+    }
+
+    if (curr === null) {
+        return root;
+    }
+
+    if (curr.leftNode === null || curr.rightNode === null) {
+        let newCurr = (curr.leftNode === null) ? curr.rightNode : curr.leftNode;
+
+        if (prev === null) {
+            return newCurr;
+        }
+
+        if (curr === prev.leftNode) {
+            prev.leftNode = newCurr;
+        } else {
+            prev.rightNode = newCurr;
+        }
+        
+    } else {
+        let p = null;
+        let temp = curr.rightNode;
+        while (temp.leftNode !== null) {
+            p = temp;
+            temp = temp.leftNode;
+        }
+
+        if (p !== null) {
+            p.leftNode = temp.rightNode;
+        } else {
+            curr.rightNode = temp.rightNode;
+        }
+
+        curr.data = temp.data;
+    }
+
+    return root;
+}
+
+function findNode(tree, data){
+    let currentNode = tree;
+    if (currentNode.data === data) {
+        return currentNode;
+    } else {
+        while (true) {
+            if (data < currentNode.data) {
+                if (currentNode.leftNode) {
+                    currentNode = currentNode.leftNode;
+                    if (currentNode.data === data) {
+                        return currentNode;
+                    }
+                } else {
+                    return null;
+                }
+            } else {
+                if (currentNode.rightNode) {
+                    currentNode = currentNode.rightNode;
+                    if (currentNode.data === data) {
+                        return currentNode;
+                    }
+                } else {
+                    return null;
+                }
+            }
+        }
+    }
+}
+
+function levelOrder(tree){
+    if (tree === null) {
+        return;
+    }
+    let queue = [];
+    let marked = [];
+    let visited = [];
+    queue.push(tree);
+    while (queue.length>0) {
+        let currentNode = queue.shift();
+        if (!marked.includes(currentNode)) {
+            visited.push(currentNode);
+            marked.push(currentNode);
+            let currentNodeNeighbors = [currentNode.leftNode, currentNode.rightNode].filter(node => node !== null);
+            for (let i=0; i<currentNodeNeighbors.length;i++) {
+                if (!marked.includes(currentNodeNeighbors[i])) {
+                    queue.push(currentNodeNeighbors[i]);
+                }
+            }
+        }
+    }
+    return visited;
+}
