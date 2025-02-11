@@ -159,3 +159,45 @@ function levelOrder(tree){
     }
     return visited;
 }
+
+function preOrder(tree){
+    let visited = [];
+    if (tree !== null) {
+        visited.push(tree);
+        if (tree.leftNode !== null && !visited.includes(tree.leftNode)) {
+            visited = visited.concat(preOrder(tree.leftNode));
+        }
+        if (tree.rightNode !== null && !visited.includes(tree.rightNode)) {
+            visited = visited.concat(preOrder(tree.rightNode));
+        }
+    }
+    return visited;
+}
+
+function postOrder(tree){
+    let visited = [];
+    if (tree !== null) {
+        if (tree.leftNode !== null && !visited.includes(tree.rightNode)) {
+            visited = visited.concat(postOrder(tree.leftNode));
+        }
+        if (tree.rightNode !== null && !visited.includes(tree.rightNode)) {
+            visited = visited.concat(postOrder(tree.rightNode));
+        }
+        visited.push(tree);
+    }
+    return visited;
+}
+
+function inOrder(tree){
+    let visited = [];
+    if (tree !== null) {
+        if (tree.leftNode !== null && !visited.includes(tree.rightNode)) {
+            visited = visited.concat(inOrder(tree.leftNode));
+        }
+        visited.push(tree);
+        if (tree.rightNode !== null && !visited.includes(tree.rightNode)) {
+            visited = visited.concat(inOrder(tree.rightNode));
+        }
+    }
+    return visited;
+}
