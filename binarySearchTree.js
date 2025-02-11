@@ -136,6 +136,65 @@ function findNode(tree, data){
     }
 }
 
+function depth(tree, data){
+    let currentNode = tree;
+    let depth = 0;
+    if (tree) {
+        if (currentNode.data === data) {
+            return depth;
+        } else {
+            while (true) {
+                if (data < currentNode.data) {
+                    if (currentNode.leftNode) {
+                        currentNode = currentNode.leftNode;
+                        depth+=1;
+                        if (currentNode.data === data) {
+                            return depth;
+                        }
+                    } else {
+                        return null;
+                    }
+                } else {
+                    if (currentNode.rightNode) {
+                        currentNode = currentNode.rightNode;
+                        depth+=1;
+                        if (currentNode.data === data) {
+                            return depth;
+                        }
+                    } else {
+                        return null;
+                    }
+                }
+            }
+        }
+    }
+}
+
+function height(node){
+    if (!node) {
+        return -1;
+    }
+
+    if (!node.leftNode && !node.rightNode) {
+        return 0;
+    }
+
+    let leftSubtreeHeight = height(node.leftNode);
+    let rightSubtreeHeight = height(node.rightNode);
+
+    return 1 + Math.max(leftSubtreeHeight, rightSubtreeHeight);
+}
+
+function nodeHeight(tree, data){
+    let node = findNode(tree, data);
+
+    if(!node){
+        return -1;
+    }
+
+    return height(node);
+}
+
 function levelOrder(tree){
     if (tree === null) {
         return;
