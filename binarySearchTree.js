@@ -219,6 +219,37 @@ function levelOrder(tree){
     return visited;
 }
 
+function checkHeight(node){
+    if (!node) {
+        return -1;
+    }
+
+    if (!node.leftNode && !node.rightNode) {
+        return 0;
+    }
+
+    let leftSubtreeHeight = checkHeight(node.leftNode);
+    let rightSubtreeHeight = checkHeight(node.rightNode);
+
+    if(rightSubtreeHeight===-1){
+        return -1;
+    }
+
+    if(leftSubtreeHeight===-1){
+        return -1;
+    }
+
+    if (Math.abs(leftSubtreeHeight-rightSubtreeHeight)>1) {
+        return -1;
+    }
+
+    return 1 + Math.max(leftSubtreeHeight, rightSubtreeHeight);
+}
+
+function isBalanced(tree){
+    return checkHeight(tree) !== -1;
+}
+
 function preOrder(tree){
     let visited = [];
     if (tree !== null) {
