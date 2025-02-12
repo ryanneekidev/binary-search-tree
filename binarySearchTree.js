@@ -49,12 +49,12 @@ function insertNode(tree, node){
         return node;
     }
 
-        if (node.data < tree.data) {
-            tree.leftNode = insertNode(tree.leftNode, node);
-        } else {
-            tree.rightNode = insertNode(tree.rightNode, node);
-        }
-        return tree;
+    if (node.data < tree.data) {
+        tree.leftNode = insertNode(tree.leftNode, node);
+    } else {
+        tree.rightNode = insertNode(tree.rightNode, node);
+    }
+    return tree;
 }
 
 function deleteNode(root, key) {
@@ -250,10 +250,25 @@ function isBalanced(tree){
     return checkHeight(tree) !== -1;
 }
 
+function balance(tree){
+    let nodes = inOrder(tree);
+    if (!tree){
+        return null;
+    }
+
+    if (!nodes){
+        return null;
+    }
+
+    return createTree(node.nodeData);
+}
+
 function preOrder(tree){
     let visited = [];
+    let nodeData = [];
     if (tree !== null) {
         visited.push(tree);
+        data.push(tree.data)
         if (tree.leftNode !== null && !visited.includes(tree.leftNode)) {
             visited = visited.concat(preOrder(tree.leftNode));
         }
@@ -261,33 +276,40 @@ function preOrder(tree){
             visited = visited.concat(preOrder(tree.rightNode));
         }
     }
-    return visited;
+    return {visited: visited, nodeData: nodeData};
 }
 
 function postOrder(tree){
     let visited = [];
+    let nodeData = [];
     if (tree !== null) {
-        if (tree.leftNode !== null && !visited.includes(tree.rightNode)) {
+        if (tree.leftNode !== null && !visited.includes(tree.leftNode)) {
             visited = visited.concat(postOrder(tree.leftNode));
+            nodeData = nodeData.concat(postOrder(tree.leftNode.data));
         }
         if (tree.rightNode !== null && !visited.includes(tree.rightNode)) {
             visited = visited.concat(postOrder(tree.rightNode));
+            nodeData = nodeData.concat(postOrder(tree.rightNode.data));
         }
         visited.push(tree);
+        nodeData.push(tree.data);
     }
-    return visited;
+    return {visited: visited, nodeData: nodeData};
 }
 
 function inOrder(tree){
     let visited = [];
     if (tree !== null) {
-        if (tree.leftNode !== null && !visited.includes(tree.rightNode)) {
+        if (tree.leftNode !== null && !visited.includes(tree.leftNode)) {
             visited = visited.concat(inOrder(tree.leftNode));
+            nodeData = nodeData.concat(postOrder(tree.leftNode.data));
         }
         visited.push(tree);
+        nodeData.push(tree.data);
         if (tree.rightNode !== null && !visited.includes(tree.rightNode)) {
             visited = visited.concat(inOrder(tree.rightNode));
+            nodeData = nodeData.concat(postOrder(tree.rightNode.data));
         }
     }
-    return visited;
+    return {visited: visited, nodeData: nodeData};
 }
