@@ -260,7 +260,7 @@ function balance(tree){
         return null;
     }
 
-    return createTree(node.nodeData);
+    return createTree(nodes.nodeData);
 }
 
 function preOrder(tree){
